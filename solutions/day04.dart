@@ -9,10 +9,10 @@ class Day04 extends GenericDay {
   @override
   List<Pair> parseInput() {
     final lines = input.getPerLine();
-    return lines.map((e) {
-      final rawSections = e.split(',');
-      final sections = rawSections.map((e) {
-        final parts = e.split('-');
+    return lines.map((line) {
+      final rawSections = line.split(',');
+      final sections = rawSections.map((section) {
+        final parts = section.split('-');
         final intParts = ParseUtil.stringListToIntList(parts);
         return Section(intParts[0], intParts[1]);
       }).toList();
@@ -23,14 +23,14 @@ class Day04 extends GenericDay {
   @override
   int solvePart1() {
     final pairs = parseInput();
-    final containedPairs = pairs.map(_fullyContained).where((c) => c);
+    final containedPairs = pairs.where(_fullyContained);
     return containedPairs.length;
   }
 
   @override
   int solvePart2() {
     final pairs = parseInput();
-    final containedPairs = pairs.map(_kindaContained).where((c) => c);
+    final containedPairs = pairs.where(_kindaContained);
     return containedPairs.length;
   }
 
