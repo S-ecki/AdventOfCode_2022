@@ -42,6 +42,12 @@ class Field<T> {
       position.x < width &&
       position.y < height;
 
+  bool isOnEdge(Position position) =>
+      position.x == 0 ||
+      position.y == 0 ||
+      position.x == width - 1 ||
+      position.y == height - 1;
+
   /// Returns the whole row with given row index.
   Iterable<T> getRow(int row) => field[row];
 
@@ -55,12 +61,30 @@ class Field<T> {
   T get maxValue => max<T>(field.expand((element) => element))!;
 
   /// Executes the given callback for every position on this field.
-  forEach(VoidFieldCallback callback) {
+  void forEach(VoidFieldCallback callback) {
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
         callback(x, y);
       }
     }
+  }
+
+  R fold<R>(R initialValue, R Function(R, Position) combine) {
+    var value = initialValue;
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        value = combine(value, Position(x, y));
+      }
+    }
+    return value;
+  }
+
+  Field<R> map<R>(R Function(Position) transform) {
+    final result = List<List<R>>.generate(
+      height,
+      (y) => List<R>.generate(width, (x) => transform(Position(x, y))),
+    );
+    return Field<R>(result);
   }
 
   /// Returns the number of occurances of given object in this field.
