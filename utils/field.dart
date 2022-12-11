@@ -171,3 +171,12 @@ extension CoordinateLocator on Position {
   int get x => item1;
   int get y => item2;
 }
+
+extension PositionX on Position {
+  isNeighbourOf(Position pos) {
+    return this.x <= pos.x + 1 &&
+        this.x >= pos.x - 1 &&
+        this.y <= pos.y + 1 &&
+        this.y >= pos.y - 1;
+  }
+}
