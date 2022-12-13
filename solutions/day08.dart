@@ -36,9 +36,8 @@ class Day08 extends GenericDay {
       final splits = _getSplits(field, pos);
 
       final individualScores = splits.map((split) {
-        final smallerConsecutiveTrees = split.takeWhile((tree) {
-          return value > tree;
-        }).length;
+        final smallerConsecutiveTrees =
+            split.takeWhile((tree) => value > tree).length;
 
         return smallerConsecutiveTrees != split.length
             ? smallerConsecutiveTrees + 1
